@@ -1,0 +1,90 @@
+---
+title: "Analytics en Analytics"
+author: "Pablo Tempone"
+date: "1 de febrero de 2017"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+load(".RData")
+
+library(caret)
+library(ggbiplot)
+library(ggplot2)
+library(knitr)
+```
+
+## Introducción
+
+Todos los años se habla de los informes de Gartner y Forrester, las empresas lo utilizan como campaña de marketing. Pero todos nos preguntamos cuando lo vemos, como es que está en esa posición, ellos lo explican para que se entienda su metodología.
+
+Pero para buscar otra visión vamos a ver los datos que los especialistas en esos informes mencionan y como se pueden ubicar de otra manera las distintas herramientas de BI, con el foco en las que son para explotación de la información.
+
+Lo que se busca es desmitificar cuando se habla de que hacen analytics herramientas que tienen como fuerte las visualizaciones en realidad y como esas herramientas se encuentran cercanas entre si.
+
+##Forrester
+
+Primero se ven los datos puros recopilados:
+
+```{r}
+kable(Forrester_MQ)
+```
+
+Ahora se pasan esos datos una visualización más simple de ver:
+
+```{r biplot forrester,include=TRUE}
+ggbiplot(pr.forrester, obs.scale = 1, var.scale = 0.02,
+                labels = rownames(tabla_gartner),ellipse = TRUE, circle = TRUE) +
+  scale_color_discrete(name = '') +
+  theme(legend.direction = 'horizontal', legend.position = 'top')
+
+```
+
+Lo que vemos cuando miramos Microstrategy, Qlikview y Tableau es que se destacan en lo siguiente:
+
+* Visualizaciones Avanzadas
+* Autoservicio del usuario final – feedback del cliente
+* Visión del cliente corporativo acerca del producto
+* Visualizaciones Avanzadas – feedback de clientes
+* BI Ágil — feedback de clientes
+
+
+##Gartner - Casos de Uso
+
+Ahora se pasa a ver Gartner, el generador del "Cuadrante Mágico". Primero se ven los datos de los casos de uso.
+
+Los datos:
+
+
+```{r pressure, echo=TRUE}
+kable(Gartner.Scores)
+
+```
+
+Ahora se vuelve a generar un gráfico para visualizar mejor esas variables y cada una de las herramientas.
+
+Las variables son las siguientes:
+
+* Descentralización
+* Centralización
+* Gobierno de datos
+* OEM/Embedded BI
+* Despliegue Extranet
+
+
+```{r gartener casos de uso}
+
+ggbiplot(pr.gartner, obs.scale = 1, var.scale = 1,
+                      labels = Gartner.Scores[,1],ellipse = TRUE, circle = TRUE) +
+  theme(legend.direction = 'horizontal', legend.position = 'top')
+
+
+```
+
+
+##Opiniones
+
+¿ Si tenemos Tableau por qué migrar a Microstrategy o viceversa? (por poner un ejemplo), los datos parecieran indicar que si se busca tener un mejor gobierno de los datos o su centralización pareciera mejor ir por herramientas como Microstrategy. 
+Si lo que buscamos es darle más poder a los usuarios Tableau pareciera ser una mejor opción.
+Esto igualmente basado en datos del 2016, cada empresa está sacando nuevas funcionalidades orientadas al self service. Pero algo que es claro es que si se tiene montado toda una infraestructura en una lo mejor es potenciarla antes de pensar en un cambio total por algo que quizás no nos otorga un cambio tan diferencial como se vende.

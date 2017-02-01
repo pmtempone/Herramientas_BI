@@ -1,0 +1,41 @@
+---
+title: "PCA GARTNER"
+author: "pmtempone"
+date: "20 de julio de 2016"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+load(".RData")
+```
+
+## PCA Gartner
+
+Se muestra el análisis de los PCA de gartner critical capabilities:
+
+```{r pca to dataframe}
+library(plotly)
+library(caret)
+A <- as.data.frame(pr.gartner_critical$rotation)
+A
+```
+
+## Including Plots
+
+Plot de ploty:
+
+```{r pressure, echo=FALSE}
+library(plotly)
+p <- plot_ly(A, x = PC1 , y = PC2, text = rownames(critical_cap_gartner),
+             mode = "markers", marker = list(size = 11))
+
+p <- layout(p, title = "PCA Clusters from Gartner", 
+            xaxis = list(title = "PC 1"),
+            yaxis = list(title = "PC 2"))
+
+p
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
